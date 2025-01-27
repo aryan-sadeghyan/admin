@@ -10,12 +10,15 @@ export async function GET(
     const { categoryId } = await params; // Await the params promise
 
     if (!categoryId) {
-      return new NextResponse("billboard id is required", { status: 400 });
+      return new NextResponse("category id is required", { status: 400 });
     }
 
-    const category = await prismadb.billboard.findUnique({
+    const category = await prismadb.category.findUnique({
       where: {
         id: categoryId,
+      },
+      include: {
+        billboard: true,
       },
     });
 

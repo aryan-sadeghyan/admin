@@ -110,12 +110,26 @@ export async function GET(
         colorId,
         sizeId,
         isFeatured: isFeatured ? true : undefined,
+        isArchived: false,
+      },
+      include: {
+        images: {
+          select: {
+            url: true, // Ensure only the URL is returned from images
+          },
+        },
+        category: true,
+        color: true,
+        size: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
     return NextResponse.json(products);
   } catch (error) {
-    console.log("[BILLBOARDS_GET]", error);
+    console.log("[PRODUCTS_GET]", error);
     return new NextResponse("internal error", { status: 500 });
   }
 }

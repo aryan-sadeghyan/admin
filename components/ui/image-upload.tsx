@@ -1,10 +1,17 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget, CldUploadWidgetProps } from "next-cloudinary";
+
+// Define the result type based on Cloudinary's response
+interface CloudinaryUploadWidgetInfo {
+  secure_url: string;
+}
+
+interface CloudinaryUploadWidgetResults {
+  info: string | CloudinaryUploadWidgetInfo | undefined;
+}
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -25,13 +32,21 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
+  const onUpload = (result: CloudinaryUploadWidgetResults) => {
+    // Check if the result.info is defined and has the secure_url
+    if (
+      result.info &&
+      typeof result.info !== "string" &&
+      result.info.secure_url
+    ) {
+      onChange(result.info.secure_url);
+    }
   };
 
   if (!isMounted) {
     return null;
   }
+
   return (
     <div>
       <div className='mb-4 flex items-center gap-4'>
@@ -50,13 +65,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 <Trash className='h-4 w-4' />
               </Button>
             </div>
-            <Image
-              fill
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-              className='object-cover'
-              alt='Image'
-              src={url}
-            />
+            <Image fill className='object-cover' alt='Image' src={url} />
           </div>
         ))}
       </div>

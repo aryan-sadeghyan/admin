@@ -75,7 +75,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       label: "",
-      imageUrl: "",
+      imageUrl: [],
     },
   });
 
