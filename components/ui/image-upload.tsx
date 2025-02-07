@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
-import { CldUploadWidget, CldUploadWidgetProps } from "next-cloudinary";
+import { CldUploadWidget } from "next-cloudinary";
 
 // Define the result type based on Cloudinary's response
 interface CloudinaryUploadWidgetInfo {

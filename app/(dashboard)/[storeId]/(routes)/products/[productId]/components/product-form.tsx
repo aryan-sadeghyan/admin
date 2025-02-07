@@ -22,8 +22,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/ui/image-upload";
 import {
   Select,
@@ -68,7 +66,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const title = initialData ? "edit product" : "create product";
   const description = initialData ? "edit product" : "Add a new product";
@@ -89,7 +86,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
-    } catch (error) {
+    } catch {
       toast.error("something went wrong.");
     } finally {
       setLoading(false);
@@ -122,7 +119,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success("products deleted");
-    } catch (error) {
+    } catch {
       toast.error("something went wrong.");
     } finally {
       setLoading(false);

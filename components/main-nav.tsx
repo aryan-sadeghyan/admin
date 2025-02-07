@@ -7,7 +7,6 @@ import React from "react";
 
 export default function MainNav({
   className,
-  ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();

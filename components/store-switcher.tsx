@@ -20,8 +20,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useStoreModal } from "@/hooks/use-store-modal";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { Store } from "@prisma/client";
 
 type PopoveerTriggerProps = React.ComponentPropsWithoutRef<
@@ -31,22 +29,16 @@ interface StoreSwitcherProps extends PopoveerTriggerProps {
   items: Store[];
 }
 
-export function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
+export function StoreSwitcher({ items = [] }: StoreSwitcherProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
   const storeModal = useStoreModal();
-  const params = useParams();
-  const router = useRouter();
 
   const formattedItems = items.map((item) => ({
     label: item.name,
     value: item.id,
   }));
-
-  const currentStore = formattedItems.find(
-    (item) => item.value === params.storeId
-  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
-import { Size } from "@prisma/client";
 
 export async function POST(
   req: Request,

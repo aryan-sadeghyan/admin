@@ -7,14 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  Copy,
-  Edit,
-  Ghost,
-  MoreHorizontal,
-  MoreHorizontalIcon,
-  Trash,
-} from "lucide-react";
+import { Copy, Edit, MoreHorizontalIcon, Trash } from "lucide-react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
@@ -45,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       router.refresh();
 
       toast.success("color deleted");
-    } catch (error) {
+    } catch {
       toast.error("make sure you removed all products using this color first.");
     } finally {
       setLoading(false);

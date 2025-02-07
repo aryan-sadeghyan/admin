@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { BillboardColumn } from "./columns";
 import { Button } from "@/components/ui/button";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Copy, Edit, MoreHorizontalIcon, Trash } from "lucide-react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
@@ -38,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       router.refresh();
 
       toast.success("billboard deleted");
-    } catch (error) {
+    } catch {
       toast.error("make sure you removed all categories using this billboard.");
     } finally {
       setLoading(false);

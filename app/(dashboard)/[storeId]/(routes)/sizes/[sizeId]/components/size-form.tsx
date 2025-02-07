@@ -21,9 +21,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
-import ImageUpload from "@/components/ui/image-upload";
 
 interface SizeFormProps {
   initialData: Size | null;
@@ -41,7 +38,6 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const title = initialData ? "edit Size" : "create Size";
   const description = initialData ? "edit Size" : "Add a new Size";
@@ -62,7 +58,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       router.refresh();
       router.push(`/${params.storeId}/sizes`);
       toast.success(toastMessage);
-    } catch (error) {
+    } catch {
       toast.error("something went wrong.");
     } finally {
       setLoading(false);
@@ -84,7 +80,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       router.refresh();
       router.push(`${params.storeId}/sizes`);
       toast.success("size deleted");
-    } catch (error) {
+    } catch {
       toast.error("make sure you removed all products using this Size first.");
     } finally {
       setLoading(false);
