@@ -4,12 +4,14 @@ import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
 
-// Define a more specific interface for the Cloudinary upload results
-interface CloudinaryUploadInfo {
-  secure_url?: string;
-  public_id?: string;
-  // Add other properties as needed
-}
+// Type definition for Cloudinary upload results
+type CloudinaryUploadResults = {
+  event: string;
+  info: {
+    secure_url?: string;
+    [key: string]: unknown;
+  };
+};
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -30,18 +32,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const onUpload = (results: any) => {
-    // Comprehensive type checking
+  const onUpload = (results: CloudinaryUploadResults) => {
+    // Precise type checking
     if (
-      results &&
-      results.info &&
+      results?.info &&
       typeof results.info === "object" &&
-      "secure_url" in results.info
+      typeof results.info.secure_url === "string"
     ) {
-      const secureUrl = results.info.secure_url;
-      if (typeof secureUrl === "string") {
-        onChange(secureUrl);
-      }
+      onChange(results.info.secure_url);
     }
   };
 
