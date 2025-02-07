@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
-import { CldUploadWidget } from "next-cloudinary";
+import {
+  CldUploadWidget,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 
 // Use the type directly from Cloudinary's types
 interface ImageUploadProps {
@@ -24,8 +27,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  // Use any to bypass strict type checking
-  const onUpload = (results: any) => {
+  // Use Cloudinary's type for the results parameter
+  const onUpload = (results: CloudinaryUploadWidgetResults) => {
     if (results?.info?.secure_url) {
       onChange(results.info.secure_url);
     }
