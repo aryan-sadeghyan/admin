@@ -8,14 +8,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { BillboardColumn } from "./columns";
 import { Button } from "@/components/ui/button";
-import {
-  Copy,
-  Edit,
-  Ghost,
-  MoreHorizontal,
-  MoreHorizontalIcon,
-  Trash,
-} from "lucide-react";
+import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
