@@ -21,9 +21,16 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch (error: any) {
-    console.error("Webhook error:", error.message);
-    return new NextResponse(`Webhook error: ${error.message}`, { status: 400 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Webhook error:", error.message);
+      return new NextResponse(`Webhook error: ${error.message}`, {
+        status: 400,
+      });
+    }
+
+    console.error("Unknown webhook error:", error);
+    return new NextResponse("Unknown webhook error", { status: 400 });
   }
 
   if (event.type === "checkout.session.completed") {
