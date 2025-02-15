@@ -21,13 +21,13 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-
 import ImageUpload from "@/components/ui/image-upload";
 
 interface BillboardFormProps {
   initialData: Billboard | null;
 }
 
+// Keep the schema expecting a single string for imageUrl
 const formSchema = z.object({
   label: z.string().min(1),
   imageUrl: z.string().min(1),
@@ -43,10 +43,20 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const params = useParams();
   const router = useRouter();
 
-  const title = initialData ? "edit billboard" : "create billboard";
-  const description = initialData ? "edit billboard" : "Add a new billboard";
-  const toastMessage = initialData ? "save changes" : "create";
-  const action = initialData ? "edit billboard" : "create billboard";
+  const title = initialData ? "Edit Billboard" : "Create Billboard";
+  const description = initialData
+    ? "Edit the billboard details"
+    : "Add a new billboard";
+  const toastMessage = initialData ? "Changes saved" : "Billboard created";
+  const action = initialData ? "Save Changes" : "Create Billboard";
+
+  const form = useForm<BillboardFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData || {
+      label: "",
+      imageUrl: "",
+    },
+  });
 
   const onSubmit = async (data: BillboardFormValues) => {
     try {
@@ -63,19 +73,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       router.push(`/${params.storeId}/billboards`);
       toast.success(toastMessage);
     } catch {
-      toast.error("something went wrong.");
+      toast.error("Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
-
-  const form = useForm<BillboardFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      label: "",
-      imageUrl: "",
-    },
-  });
 
   const onDelete = async () => {
     try {
@@ -85,9 +87,9 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       );
       router.refresh();
       router.push(`/${params.storeId}/billboards`);
-      toast.success("billboard deleted");
+      toast.success("Billboard deleted");
     } catch {
-      toast.error("make sure you removed all categories using this billboard.");
+      toast.error("Make sure you removed all categories using this billboard.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -126,43 +128,38 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
           <FormField
             control={form.control}
             name='imageUrl'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Background image</FormLabel>
-                  <FormControl>
-                    <ImageUpload
-                      value={field.value ? [field.value] : []}
-                      disabled={loading}
-                      onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange("")}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Background image</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-
           <div className='grid grid-cols-3 gap-8'>
             <FormField
               control={form.control}
               name='label'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>label</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder='Billboard label'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Label</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='Billboard label'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
           <Button disabled={loading} className='ml-auto'>
