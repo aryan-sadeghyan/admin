@@ -4,6 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ModalProvider } from "@/providers/modal-provider";
 import { ToastProvider } from "@/providers/hot-toast";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { DemoDataProvider } from "@/providers/demo-data-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,13 +30,17 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider afterSignOutUrl={"/"}>
-      <html lang='en'>
+      <html lang='en' suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ToastProvider />
-          <ModalProvider />
-          {children}
+          <ThemeProvider>
+            <DemoDataProvider>
+              <ToastProvider />
+              <ModalProvider />
+              {children}
+            </DemoDataProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

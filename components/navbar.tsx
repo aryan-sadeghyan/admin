@@ -5,6 +5,7 @@ import { StoreSwitcher } from "./store-switcher";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { ThemeToggle } from "./theme-toggle";
 
 export default async function Navbar() {
   const { userId } = await auth(); // Await the promise and destructure userId.
@@ -20,12 +21,13 @@ export default async function Navbar() {
   });
 
   return (
-    <div className='border-b'>
-      <div className='flex items-center h-16 px-4'>
+    <div className='sticky top-0 z-50 glass-effect backdrop-blur-md border-b border-white/10 dark:border-slate-800/50'>
+      <div className='flex items-center h-16 px-6 mx-auto max-w-7xl animate-in'>
         <StoreSwitcher items={stores} />
         <MainNav className='mx-6' />
         <div className='ml-auto flex items-center space-x-4'>
-          <UserButton />
+          <ThemeToggle />
+          <UserButton afterSignOutUrl='/' />
         </div>
       </div>
     </div>
